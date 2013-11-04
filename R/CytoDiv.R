@@ -1,12 +1,14 @@
-cytoDiv <- function(df, x.var="fsc_small", y.var="chl_small", z.var="pe", zz.var="fsc_perp", Ncat = 256, Nbit = 16, do.plot=FALSE,...){
+cytoDiv <- function(df, Ncat = 256, Nbit = 16, do.plot=FALSE,...){
 	
 	jet.colors <- colorRampPalette(c("white","red","red4","tomato4","black"))
-	filtered <- df
-    
-# THIS NEEDS TO BE MODIFIED TO ACCOUNT FOR MULTIVARIATE DATA!!
-# HOW CAN WE SENSIBLY BIN 4-DIMENSIONAL DATA?
-#    # Bin the bivariate data per categorie defined by Ncat
-#    dens <- KernSur(filtered[,x.var],filtered[,y.var], xgridsize= Ncat, ygridsize=Ncat, range.x=c(0,2^Nbit),range.y=c(0,2^Nbit),...)
+	# why is this necessary? does it convert to the correct format?
+        filtered <- df
+
+     # bin the data using a multivariate kernel smoother
+     # ks package (appropriate for 1 to 6-D data)
+     dens <- kde(filtered, H, h, gridsize, gridtype, xmin, xmax, supp=3.7, eval.points,
+     binned=TRUE, bgridsize, positive=FALSE, adj.positive, w,compute.cont=FALSE, approx.cont=TRUE)
+
 
 	# Plot the output 
     if(do.plot==TRUE){		
